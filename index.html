@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The design space — three sketches</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Anti-fnords, or, What text can be now</title>
 <style>
   :root {
     --bg: #faf9f6;
@@ -24,155 +25,176 @@
     --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
     --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   }
-
   * { box-sizing: border-box; }
-
   body {
     margin: 0;
     padding: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.6;
+    font-family: var(--serif);
+    line-height: 1.7;
+    font-size: 17px;
     -webkit-font-smoothing: antialiased;
   }
-
-  .page {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 64px 40px 80px;
-  }
-
-  .page-header {
-    margin-bottom: 56px;
+  .essay {
     max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
   }
-
-  .kicker {
-    font-size: 12px;
+  h1.title {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
+  }
+  .tagline {
+    font-size: 17px;
+    color: var(--text);
+    margin: 0 0 40px;
+    line-height: 1.6;
+  }
+  .toc {
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 20px 0;
+    margin: 40px 0;
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .toc-label {
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-faint);
     margin-bottom: 12px;
   }
-
-  h1.page-title {
-    font-family: var(--serif);
-    font-size: 38px;
-    font-weight: 500;
-    line-height: 1.15;
-    margin: 0 0 14px;
-    letter-spacing: -0.01em;
-  }
-
-  .page-dek {
-    font-size: 16px;
-    color: var(--text-muted);
+  .toc ol {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    line-height: 1.55;
   }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  .toc li {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
   }
-
-  @media (max-width: 1100px) {
-    .grid { grid-template-columns: 1fr; gap: 40px; }
-    .page { padding: 40px 24px; }
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 0.5px solid transparent;
   }
-
-  .mockup {
-    background: var(--surface);
+  .toc a:hover {
+    border-bottom-color: var(--text);
+  }
+  .toc .page-num {
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 56px 0 20px;
+    line-height: 1.25;
+  }
+  p {
+    margin: 0 0 1.2rem;
+  }
+  a {
+    color: var(--accent-blue-text);
+  }
+  em {
+    font-style: italic;
+  }
+  .sad {
+    text-align: center;
+    font-size: 20px;
+    color: var(--text-muted);
+    margin: 32px 0;
+    font-family: var(--sans);
+  }
+  .mockup-wrap {
+    margin: 32px 0;
     border: 0.5px solid var(--border);
     border-radius: 10px;
-    padding: 32px 28px;
-    display: flex;
-    flex-direction: column;
-    min-height: 580px;
+    background: var(--surface);
+    padding: 24px 20px;
+  }
+  .mockup-label {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .mockup-label a {
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
   }
 
+  /* Mockup internals */
   .mockup-meta {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 20px;
-    padding-bottom: 14px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
     border-bottom: 0.5px solid var(--border);
   }
-
   .mockup-number {
     font-family: var(--serif);
     font-style: italic;
     font-size: 13px;
     color: var(--text-faint);
   }
-
   .mockup-name {
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-muted);
     font-weight: 500;
+    font-family: var(--sans);
   }
-
   .mockup-title {
     font-family: var(--serif);
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
-    line-height: 1.2;
-    margin: 0 0 6px;
+    line-height: 1.25;
+    margin: 0 0 16px;
   }
-
-  .mockup-subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin: 0 0 20px;
-    line-height: 1.5;
-  }
-
-  .prose {
+  .mockup-prose {
     font-family: var(--serif);
     font-size: 15px;
     line-height: 1.7;
     color: var(--text);
-    flex: 1;
   }
-
-  .prose p {
-    margin: 0 0 0.9rem;
-  }
-
-  .prose p:last-child {
-    margin-bottom: 0;
-  }
-
-  .caption {
+  .mockup-prose p { margin: 0 0 0.9rem; }
+  .mockup-caption {
     margin-top: 20px;
     padding-top: 14px;
     border-top: 0.5px solid var(--border);
     font-size: 12px;
     color: var(--text-muted);
     line-height: 1.55;
+    font-family: var(--sans);
   }
+  .mockup-caption strong { color: var(--text); font-weight: 500; }
 
-  .caption strong {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  /* ====== Mockup 1: Anti-fnord ====== */
-
+  /* Anti-fnord */
   .toggle-row {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     font-size: 11px;
     color: var(--text-faint);
+    font-family: var(--sans);
   }
-
   .toggle-btn {
     border: none;
     background: transparent;
@@ -185,17 +207,14 @@
     color: var(--text-muted);
     transition: background 0.15s;
   }
-
   .toggle-btn.active-w {
     background: var(--accent-blue-bg);
     color: var(--accent-blue-text);
   }
-
   .toggle-btn.active-m {
     background: var(--accent-red-bg);
     color: var(--accent-red-text);
   }
-
   .ex {
     background: var(--accent-blue-bg);
     color: var(--accent-blue-text);
@@ -203,23 +222,21 @@
     border-radius: 3px;
     transition: background 0.15s, color 0.15s;
   }
-
   .ex.maga {
     background: var(--accent-red-bg);
     color: var(--accent-red-text);
   }
 
-  /* ====== Mockup 2: Depth toggle ====== */
-
+  /* Depth */
   .depth-row {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     font-size: 11px;
     color: var(--text-faint);
+    font-family: var(--sans);
   }
-
   .depth-btn {
     border: none;
     background: transparent;
@@ -232,20 +249,12 @@
     color: var(--text-muted);
     transition: background 0.15s;
   }
-
   .depth-btn.active {
     background: var(--accent-amber-bg);
     color: var(--accent-amber-text);
   }
-
-  .depth-expand {
-    display: none;
-  }
-
-  .depth-expand.visible {
-    display: block;
-  }
-
+  .depth-expand { display: none; }
+  .depth-expand.visible { display: block; }
   .footnote {
     font-size: 13px;
     color: var(--text-muted);
@@ -257,7 +266,6 @@
     font-family: var(--serif);
     line-height: 1.55;
   }
-
   .source {
     font-size: 12px;
     color: var(--text-faint);
@@ -267,30 +275,22 @@
     border-left: 2px solid var(--border);
   }
 
-  .source a {
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-
-  /* ====== Mockup 3: Reader-provided ====== */
-
+  /* Reactivity */
   .input-row {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     padding: 10px 12px;
     background: var(--accent-teal-bg);
     border-radius: 6px;
   }
-
   .input-label {
     font-size: 11px;
     color: var(--accent-teal-text);
     font-weight: 500;
     font-family: var(--sans);
   }
-
   .input-field {
     border: 0.5px solid rgba(8, 80, 65, 0.2);
     background: var(--surface);
@@ -301,11 +301,7 @@
     color: var(--text);
     outline: none;
   }
-
-  .input-field:focus {
-    border-color: var(--accent-teal-text);
-  }
-
+  .input-field:focus { border-color: var(--accent-teal-text); }
   .variable {
     background: var(--accent-teal-bg);
     color: var(--accent-teal-text);
@@ -313,159 +309,424 @@
     border-radius: 3px;
     font-weight: 500;
   }
-
   .placeholder {
     opacity: 0.5;
     font-style: italic;
   }
 
+  /* Footnote at bottom of essay */
+  .footnote-ref {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+  }
+  .footnote-ref a {
+    text-decoration: none;
+  }
+  .footnotes {
+    border-top: 0.5px solid var(--border);
+    margin-top: 48px;
+    padding-top: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: var(--sans);
+  }
+
+  /* Diagram */
+  .diagram {
+    margin: 40px 0 24px;
+    display: flex;
+    gap: 8px;
+  }
+  .diagram-side {
+    flex: 1;
+    background: #e9e6df;
+    padding: 28px 20px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .diagram-caption {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+  .diagram svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* P.S. */
+  .ps {
+    margin-top: 32px;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  /* Old//Bold */
+  .signoff {
+    margin-top: 48px;
+    font-family: var(--sans);
+    font-size: 20px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .diagram-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 48px 0 16px;
+    text-align: center;
+  }
+  .inline-image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 24px auto;
+    border-radius: 6px;
+  }
+
+  /* Password gate */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  #gate-inner {
+    max-width: 320px;
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+  }
+  #gate h1 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  #gate p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    font-family: var(--sans);
+  }
+  #gate input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    font-family: var(--sans);
+    outline: none;
+  }
+  #gate input:focus { border-color: var(--text); }
+  #gate-error {
+    color: #b33;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+    font-family: var(--sans);
+  }
+  body.unlocked #gate { display: none; }
+  body:not(.unlocked) .essay { display: none; }
+
+  @media (max-width: 600px) {
+    .essay { padding: 40px 20px 60px; }
+    h1.title { font-size: 28px; }
+    .diagram { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
 
-<div class="page">
-
-  <div class="page-header">
-    <div class="kicker">Field notes — three sketches</div>
-    <h1 class="page-title">The design space for electronic text</h1>
-    <p class="page-dek">Three affordances paper cannot do, sketched as working examples. None of these are finished; they exist to show the space is real.</p>
+<div id="gate">
+  <div id="gate-inner">
+    <h1>livetext</h1>
+    <p>password</p>
+    <input type="password" id="gate-input" autofocus>
+    <div id="gate-error"></div>
   </div>
-
-  <div class="grid">
-
-    <!-- ============================================ -->
-    <!-- MOCKUP 1: ANTI-FNORD                          -->
-    <!-- ============================================ -->
-    <div class="mockup">
-      <div class="mockup-meta">
-        <span class="mockup-number">Sketch 01</span>
-        <span class="mockup-name">Anti-fnord</span>
-      </div>
-
-      <h2 class="mockup-title">Power you trust today will be wielded against you tomorrow.</h2>
-
-      <div class="toggle-row">
-        <span>Examples:</span>
-        <button class="toggle-btn active-w" id="t1-w">woke</button>
-        <button class="toggle-btn" id="t1-m">maga</button>
-      </div>
-
-      <div class="prose">
-        <p>There's a mistake almost everyone makes when they're winning: they mistake their grip on institutional power for the rightness of institutional power itself.</p>
-        <p>Consider <span class="ex" data-w="universities using DEI statements as hiring filters" data-m="Florida auditing what teachers say about gender">universities using DEI statements as hiring filters</span>. Whatever you think of the content, notice the <em>structure</em>: a small, unaccountable body decides which beliefs disqualify someone from a job.</p>
-        <p>Institutions outlive coalitions. The tools you build to enforce your values become, within a decade, tools your opponents use to enforce theirs. <span class="ex" data-w="The censorship apparatus progressives cheered during COVID" data-m="The executive powers conservatives expanded after 9/11">The censorship apparatus progressives cheered during COVID</span> is now being pointed elsewhere.</p>
-      </div>
-
-      <div class="caption">
-        <strong>What it does:</strong> Swaps tribal markers while keeping the logical structure fixed. Reader sees the argument with their home-team examples first; curiosity pulls them to flip.
-      </div>
-    </div>
-
-    <!-- ============================================ -->
-    <!-- MOCKUP 2: DEPTH TOGGLE                        -->
-    <!-- ============================================ -->
-    <div class="mockup">
-      <div class="mockup-meta">
-        <span class="mockup-number">Sketch 02</span>
-        <span class="mockup-name">Depth</span>
-      </div>
-
-      <h2 class="mockup-title">On the rise of remote work.</h2>
-
-      <div class="depth-row">
-        <span>Show:</span>
-        <button class="depth-btn active" data-depth="1" id="d1">claim</button>
-        <button class="depth-btn" data-depth="2" id="d2">+ evidence</button>
-        <button class="depth-btn" data-depth="3" id="d3">+ sources</button>
-      </div>
-
-      <div class="prose">
-        <p>Remote work isn't reverting. The 2020 shift looked like an emergency, but five years on it's clear the emergency revealed preferences that already existed.</p>
-
-        <div class="depth-expand" data-level="2">
-          <div class="footnote">Office occupancy in major US metros has stabilized at roughly 55–65% of pre-pandemic levels and hasn't moved meaningfully in eighteen months. The "return to office" narrative keeps being reported as imminent; the numbers keep being flat.</div>
-        </div>
-
-        <p>What changed wasn't the technology — video calls worked before — but the coordination problem. Once enough workers had remote as a live option, companies competing for talent couldn't unilaterally pull it back.</p>
-
-        <div class="depth-expand" data-level="2">
-          <div class="footnote">Companies that mandated full returns in 2023 saw disproportionate attrition among their most valuable employees — those with the most outside options. This created a selection effect where the firms holding the line lost the people most worth holding.</div>
-        </div>
-
-        <div class="depth-expand" data-level="3">
-          <div class="source">
-            → Kastle Systems Back-to-Work Barometer (weekly data)
-          </div>
-          <div class="source">
-            → Bloom, Davis, Barrero — <em>SWAA survey</em>, Stanford, ongoing
-          </div>
-        </div>
-      </div>
-
-      <div class="caption">
-        <strong>What it does:</strong> Lets readers pull the depth they want inline rather than chasing footnotes. Skeptical readers get evidence; satisfied readers move on.
-      </div>
-    </div>
-
-    <!-- ============================================ -->
-    <!-- MOCKUP 3: READER-PROVIDED VARIABLE            -->
-    <!-- ============================================ -->
-    <div class="mockup">
-      <div class="mockup-meta">
-        <span class="mockup-number">Sketch 03</span>
-        <span class="mockup-name">Reactivity</span>
-      </div>
-
-      <h2 class="mockup-title">The worst person in the world.</h2>
-
-      <div class="input-row">
-        <label class="input-label" for="figure-input">Name the worst person in the world:</label>
-        <input type="text" class="input-field" id="figure-input" placeholder="" value="">
-      </div>
-
-      <div class="prose">
-        <p><span class="variable" id="var-name"><span class="placeholder">[NAME]</span></span>. Notice what happens in your body as you read <span class="variable" id="var-name2"><span class="placeholder">[NAME]</span></span>. That tightening, that flicker of preemptive defense or attack.</p>
-        <p><span class="variable" id="var-name3"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name4"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name5"><span class="placeholder">[NAME]</span></span></p>
-        <p>That's what reactivity <em>feels</em> like.</p>
-      </div>
-
-      <div class="caption">
-        <strong>What it does:</strong> Reader supplies their own trigger rather than choosing from the author's curated pairs. The essay becomes a mirror for the reader's specific reactivity instead of a general argument.
-      </div>
-    </div>
-
-  </div>
-
 </div>
 
+<article class="essay">
+
+  <h1 class="title">Anti-fnords, or, What text can be now</h1>
+
+  <p class="tagline">Paper broadcasts: one text, many readers. Thus far electronic text mimics paper. Poorly. But it doesn't have to. Not anymore. Electronic text can be an entirely new thing. A small statement, with big consequences.</p>
+
+  <nav class="toc">
+    <div class="toc-label">Table of Contents</div>
+    <ol>
+      <li><a href="#motivation">Motivation</a></li>
+      <li><a href="#anti-fnord">Anti-Fnord technology</a></li>
+      <li><a href="#depth">On-demand Depth</a></li>
+      <li><a href="#many-more">Many more</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="motivation">Motivation</h2>
+
+  <p>Some ideas are hard to convey.</p>
+
+  <p>Received wisdom tells us what to do with those. If, for example, an idea is too abstract then you should ground it with examples. But what if the only examples you can use to illustrate an idea make you lose half your audience?</p>
+
+  <p>That's the problem I've been wrestling against for the past half decade: I've been trying to get across a number of ideas. Unfortunately, nearly all examples I found to illustrate them are political. Reliably I either choose one set of examples — and lose half the audience — or a different set — and lose the other half. Alternatively I can choose neither and just speak in a very abstract way. Then I usually lose the bottom half.</p>
+
+  <img src="communicators-dilemma.png" alt="the communicator's dilemma" class="inline-image">
+
+  <p class="sad">:(</p>
+
+  <p>This is bad. I don't want to lose <em>any</em> half of my audience: I want the ideas to come across!</p>
+
+  <p>Now, this only applies to online writing. In person, speaking to someone live, I can route around this problem: I can gauge their facility with abstraction and their political preferences, and package my message in a way that is not just accurate but maximally friendly to whatever else they already believe as well. But, in writing, you can't do that.</p>
+
+  <p>Or can you?</p>
+
+  <h2 id="anti-fnord">Anti-Fnord technology</h2>
+
+  <p>LLMs have opened new possibilities for what electronic text can <em>be</em>. They let you do things that, before, you could do only in person.</p>
+
+  <p>An example: my first idea to route around the problems above was to have a small quiz at the beginning of a text that would place you, ideologically.</p>
+
+  <p>Depending on where you'd land it would swap in examples that would <em>not</em> trigger you into not reading further. By the end of the text the ruse would be revealed, hopefully making people curious enough to scroll back to the beginning and answer differently so they can read again, this time in "hard mode". This would lead to <em>tons</em> of cognitive dissonance as their mind ran anew through arguments which structure they had already assented to, now with examples that would've made them stop reading had they read them first.</p>
+
+  <div class="mockup-wrap">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 01</span>
+      <span class="mockup-name">ANTI-FNORD</span>
+    </div>
+    <h3 class="mockup-title">Power you trust today will be wielded against you tomorrow.</h3>
+    <div class="toggle-row">
+      <span>Examples:</span>
+      <button class="toggle-btn active-w" id="t1-w">woke</button>
+      <button class="toggle-btn" id="t1-m">maga</button>
+    </div>
+    <div class="mockup-prose">
+      <p>There's a mistake almost everyone makes when they're winning: they mistake their grip on institutional power for the rightness of institutional power itself.</p>
+      <p>Consider <span class="ex" data-w="universities using DEI statements as hiring filters" data-m="Florida auditing what teachers say about gender">universities using DEI statements as hiring filters</span>. Whatever you think of the content, notice the <em>structure</em>: a small, unaccountable body decides which beliefs disqualify someone from a job.</p>
+      <p>Institutions outlive coalitions. The tools you build to enforce your values become, within a decade, tools your opponents use to enforce theirs. <span class="ex" data-w="The censorship apparatus progressives cheered during COVID" data-m="The executive powers conservatives expanded after 9/11">The censorship apparatus progressives cheered during COVID</span> is now being pointed elsewhere.</p>
+    </div>
+    <div class="mockup-caption">
+      <strong>What it does:</strong> Swaps tribal markers while keeping the logical structure fixed. Reader sees the argument with their home-team examples first; curiosity pulls them to flip.
+    </div>
+  </div>
+  <span class="mockup-label"><a href="/anti-fnord">standalone version →</a></span>
+
+  <p>Hopefully hopefully hopefully that would help overcoming the dissonance.</p>
+
+  <h2 id="depth">On-demand Depth</h2>
+
+  <p>Another problem I've had, trying to convey ideas via text, is scoping. I don't know what people know and don't know, and my solution has been to take many haphazard stabs at the same ideas: from different angles, with different depths, from different backgrounds. But this is a brute-force approach that requires creating multiple artifacts and, thus, consumes a lot of time.</p>
+
+  <p>Recently, I tried a different approach: I made an <a href="https://wrongwater.com" target="_blank">exposition website</a> where many of the terms were recursively expandable, the idea being that if you already agree you could carry on, but if some concept was new or some term didn't make sense you could click it to "go deeper" into it until it did and then "come back up".</p>
+
+  <p>But that too was time-intensive: it required a custom website and "hard coding" each page of iterative depth — all for <em>one</em> sentence.</p>
+
+  <p>What if there was another way? What if, instead of <em>proactively</em> providing depth to capture all cases where it might be required, depth was generated <em>reactively?</em></p>
+
+  <p>Footnotes are the old-school way of straddling the balance above: the prose continues for those who can continue, and numbered footnotes tell those who need or want details where they can find them. But what can footnotes to electronic text <em>be</em>?</p>
+
+  <p>What if you could, still, if you agreed with it, just read past a claim but, if you didn't, click it to expand the supporting evidence and the sources for that evidence?</p>
+
+  <div class="mockup-wrap">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 02</span>
+      <span class="mockup-name">DEPTH</span>
+    </div>
+    <h3 class="mockup-title">On the rise of remote work.</h3>
+    <div class="depth-row">
+      <span>Show:</span>
+      <button class="depth-btn active" data-depth="1" id="d1">claim</button>
+      <button class="depth-btn" data-depth="2" id="d2">+ evidence</button>
+      <button class="depth-btn" data-depth="3" id="d3">+ sources</button>
+    </div>
+    <div class="mockup-prose">
+      <p>Remote work isn't reverting. The 2020 shift looked like an emergency, but five years on it's clear the emergency revealed preferences that already existed.</p>
+      <div class="depth-expand" data-level="2">
+        <div class="footnote">Office occupancy in major US metros has stabilized at roughly 55–65% of pre-pandemic levels and hasn't moved meaningfully in eighteen months. The "return to office" narrative keeps being reported as imminent; the numbers keep being flat.</div>
+      </div>
+      <p>What changed wasn't the technology — video calls worked before — but the coordination problem. Once enough workers had remote as a live option, companies competing for talent couldn't unilaterally pull it back.</p>
+      <div class="depth-expand" data-level="2">
+        <div class="footnote">Companies that mandated full returns in 2023 saw disproportionate attrition among their most valuable employees — those with the most outside options. This created a selection effect where the firms holding the line lost the people most worth holding.</div>
+      </div>
+      <div class="depth-expand" data-level="3">
+        <div class="source">→ Kastle Systems Back-to-Work Barometer (weekly data)</div>
+        <div class="source">→ Bloom, Davis, Barrero — <em>SWAA survey</em>, Stanford, ongoing</div>
+      </div>
+    </div>
+    <div class="mockup-caption">
+      <strong>What it does:</strong> Lets readers pull the depth they want inline rather than chasing footnotes. Skeptical readers get evidence; satisfied readers move on.
+    </div>
+  </div>
+  <span class="mockup-label"><a href="/depth">standalone version →</a></span>
+
+  <h2 id="many-more">Many more</h2>
+
+  <p>I found the first two affordances trying to solve my problems of exposition through electronic text. But I'm convinced many more exist. And not just for <em>my</em> purpose of exposition.</p>
+
+  <p>For example, here's a third one, built for an entirely different purpose:</p>
+
+  <div class="mockup-wrap">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 03</span>
+      <span class="mockup-name">REACTIVITY</span>
+    </div>
+    <h3 class="mockup-title">The worst person in the world.</h3>
+    <div class="input-row">
+      <label class="input-label" for="figure-input">Name the worst person in the world:</label>
+      <input type="text" class="input-field" id="figure-input" placeholder="" value="">
+    </div>
+    <div class="mockup-prose">
+      <p><span class="variable" id="var-name"><span class="placeholder">[NAME]</span></span>. Notice what happens in your body as you read <span class="variable" id="var-name2"><span class="placeholder">[NAME]</span></span>. That tightening, that flicker of preemptive defense or attack.</p>
+      <p><span class="variable" id="var-name3"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name4"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name5"><span class="placeholder">[NAME]</span></span></p>
+      <p>That's what reactivity <em>feels</em> like.</p>
+    </div>
+    <div class="mockup-caption">
+      <strong>What it does:</strong> Reader supplies their own trigger rather than choosing from the author's curated pairs. The essay becomes a mirror for the reader's specific reactivity instead of a general argument.
+    </div>
+  </div>
+  <span class="mockup-label"><a href="/reactivity">standalone version →</a></span>
+
+  <p>The reader supplies their own variable to the text and the hardcoded "intelligence" of the fixed text is in knowing what the variable <em>actually</em> corresponds to. (Not actually "the worst person in the world" but just the one that triggers this specific reader the most.)</p>
+
+  <h2 id="conclusion">Conclusion</h2>
+
+  <p>Originally I created the first two "tricks" above to address my own frustrations. But, in making them, I ended up realizing something grander.</p>
+
+  <p>Paper cannot respond to who's reading it. But electronic text can. For the past 40 years we've been using screens to simulate paper. But the medium is capable of way more than that and LLMs just made that "more" tractable.</p>
+
+  <p>The three tricks — like Jobs' three devices — are three instances of the same thing: the same old text, now with a reader model. <em>That's</em> what changed. Paper can't have a reader model. A pre-LLM webpage can, but only for whatever variables the author hand-coded. LLMs make reader-modeling cheap and general — which means text itself can now contain something paper never could.</p>
+
+  <p>It took 30 years after the invention of the electric guitar to reveal what it could do. Until then, people played it like an amplified acoustic guitar. It took Jimi Hendrix to change that.</p>
+
+  <p>Similarly we've been using electronic text as if it were glorified paper. But now, 40 years after its invention, LLMs have shown us what it can do.</p>
+
+  <p>Above I explored 3 affordances of electronic text in the age of LLMs. I think there are many more like these. I don't claim to know the shape of the whole space. But I know it exists and I want others to know that too, which is the point of writing this down in text<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>.</p>
+
+  <p>We are still in the early days. And now text reads you.</p>
+
+  <p class="ps">P.S.: Every affordance described above is dual-use. No further details for obvious reasons.</p>
+
+  <div class="diagram">
+    <div class="diagram-side">
+      <svg width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <rect x="80" y="10" width="40" height="28" rx="2" fill="#d4d2cc" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="18" x2="110" y2="18" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="22" x2="110" y2="22" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="26" x2="110" y2="26" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="30" x2="110" y2="30" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="100" y1="10" x2="100" y2="38" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="100" y1="40" x2="50" y2="90" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="100" y1="40" x2="100" y2="90" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="100" y1="40" x2="150" y2="90" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <circle cx="50" cy="95" r="6" fill="#9a9894"/>
+        <rect x="44" y="100" width="12" height="14" rx="2" fill="#9a9894"/>
+        <circle cx="100" cy="95" r="6" fill="#9a9894"/>
+        <rect x="94" y="100" width="12" height="14" rx="2" fill="#9a9894"/>
+        <circle cx="150" cy="95" r="6" fill="#9a9894"/>
+        <rect x="144" y="100" width="12" height="14" rx="2" fill="#9a9894"/>
+      </svg>
+      <div class="diagram-caption">books broadcast — one source, many readers</div>
+    </div>
+    <div class="diagram-side">
+      <svg width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <rect x="80" y="10" width="40" height="28" rx="2" fill="#d4d2cc" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="18" x2="110" y2="18" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="22" x2="110" y2="22" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="26" x2="110" y2="26" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="90" y1="30" x2="110" y2="30" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="100" y1="10" x2="100" y2="38" stroke="#b8b5ae" stroke-width="0.5"/>
+        <line x1="100" y1="40" x2="50" y2="75" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="100" y1="40" x2="100" y2="75" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="100" y1="40" x2="150" y2="75" stroke="#b8b5ae" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <rect x="36" y="78" width="28" height="20" rx="2" fill="#2d9e74"/>
+        <line x1="42" y1="84" x2="58" y2="84" stroke="#1d7d5a" stroke-width="0.5"/>
+        <line x1="42" y1="88" x2="58" y2="88" stroke="#1d7d5a" stroke-width="0.5"/>
+        <line x1="42" y1="92" x2="58" y2="92" stroke="#1d7d5a" stroke-width="0.5"/>
+        <line x1="50" y1="78" x2="50" y2="98" stroke="#1d7d5a" stroke-width="0.5"/>
+        <circle cx="50" cy="108" r="6" fill="#2d9e74"/>
+        <rect x="44" y="113" width="12" height="14" rx="2" fill="#2d9e74"/>
+        <rect x="86" y="78" width="28" height="20" rx="2" fill="#a195e0"/>
+        <line x1="92" y1="84" x2="108" y2="84" stroke="#7d6fc7" stroke-width="0.5"/>
+        <line x1="92" y1="88" x2="108" y2="88" stroke="#7d6fc7" stroke-width="0.5"/>
+        <line x1="92" y1="92" x2="108" y2="92" stroke="#7d6fc7" stroke-width="0.5"/>
+        <line x1="100" y1="78" x2="100" y2="98" stroke="#7d6fc7" stroke-width="0.5"/>
+        <circle cx="100" cy="108" r="6" fill="#7d6fc7"/>
+        <rect x="94" y="113" width="12" height="14" rx="2" fill="#7d6fc7"/>
+        <rect x="136" y="78" width="28" height="20" rx="2" fill="#e28560"/>
+        <line x1="142" y1="84" x2="158" y2="84" stroke="#c46840" stroke-width="0.5"/>
+        <line x1="142" y1="88" x2="158" y2="88" stroke="#c46840" stroke-width="0.5"/>
+        <line x1="142" y1="92" x2="158" y2="92" stroke="#c46840" stroke-width="0.5"/>
+        <line x1="150" y1="78" x2="150" y2="98" stroke="#c46840" stroke-width="0.5"/>
+        <circle cx="150" cy="108" r="6" fill="#c46840"/>
+        <rect x="144" y="113" width="12" height="14" rx="2" fill="#c46840"/>
+      </svg>
+      <div class="diagram-caption">text senses who's reading — and reshapes itself accordingly</div>
+    </div>
+  </div>
+
+  <div class="signoff">Old//Bold.</div>
+
+  <div class="footnotes">
+    <p id="fn1">1. Broadcast text, to be exact. <a href="#fnref1">↩</a></p>
+  </div>
+
+</article>
+
 <script>
-// ===== Mockup 1: tribal toggle =====
+// ===== Password gate =====
+(function() {
+  var PASSWORD = '@nosilverv';
+  var input = document.getElementById('gate-input');
+  var error = document.getElementById('gate-error');
+  if (sessionStorage.getItem('unlocked') === 'yes') {
+    document.body.classList.add('unlocked');
+  }
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem('unlocked', 'yes');
+        document.body.classList.add('unlocked');
+      } else {
+        error.textContent = 'nope';
+        input.value = '';
+      }
+    }
+  });
+})();
+
+// ===== Anti-fnord toggle =====
 (function() {
   var btnW = document.getElementById('t1-w');
   var btnM = document.getElementById('t1-m');
+  if (!btnW) return;
   var spans = document.querySelectorAll('.ex');
   var mode = 'w';
-
   function render() {
     spans.forEach(function(s) {
       s.textContent = s.getAttribute('data-' + mode);
-      if (mode === 'm') s.classList.add('maga');
-      else s.classList.remove('maga');
+      if (mode === 'm') s.classList.add('maga'); else s.classList.remove('maga');
     });
     btnW.classList.toggle('active-w', mode === 'w');
     btnM.classList.toggle('active-m', mode === 'm');
   }
-
   btnW.addEventListener('click', function() { mode = 'w'; render(); });
   btnM.addEventListener('click', function() { mode = 'm'; render(); });
 })();
 
-// ===== Mockup 2: depth toggle =====
+// ===== Depth toggle =====
 (function() {
   var btns = document.querySelectorAll('.depth-btn');
+  if (!btns.length) return;
   var expands = document.querySelectorAll('.depth-expand');
   var currentDepth = 1;
-
   function render() {
     btns.forEach(function(b) {
       var d = parseInt(b.getAttribute('data-depth'));
@@ -473,11 +734,9 @@
     });
     expands.forEach(function(e) {
       var lvl = parseInt(e.getAttribute('data-level'));
-      if (currentDepth >= lvl) e.classList.add('visible');
-      else e.classList.remove('visible');
+      if (currentDepth >= lvl) e.classList.add('visible'); else e.classList.remove('visible');
     });
   }
-
   btns.forEach(function(b) {
     b.addEventListener('click', function() {
       currentDepth = parseInt(b.getAttribute('data-depth'));
@@ -486,9 +745,10 @@
   });
 })();
 
-// ===== Mockup 3: reader-provided =====
+// ===== Reactivity input =====
 (function() {
   var input = document.getElementById('figure-input');
+  if (!input) return;
   var vars = [
     document.getElementById('var-name'),
     document.getElementById('var-name2'),
@@ -497,7 +757,6 @@
     document.getElementById('var-name5')
   ];
   var originals = vars.map(function(v) { return v.innerHTML; });
-
   input.addEventListener('input', function() {
     var v = input.value.trim();
     if (v.length > 0) {
