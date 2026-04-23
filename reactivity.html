@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Reactivity — livetext</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --text-faint: #9a9a9a;
+    --accent-teal-bg: #e1f5ee;
+    --accent-teal-text: #085041;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 560px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+  .mockup {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+  }
+  .mockup-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .mockup-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  .mockup-name {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .mockup-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 20px;
+  }
+  .input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding: 10px 12px;
+    background: var(--accent-teal-bg);
+    border-radius: 6px;
+  }
+  .input-label {
+    font-size: 11px;
+    color: var(--accent-teal-text);
+    font-weight: 500;
+  }
+  .input-field {
+    border: 0.5px solid rgba(8, 80, 65, 0.2);
+    background: var(--surface);
+    padding: 5px 8px;
+    font-size: 13px;
+    font-family: var(--sans);
+    border-radius: 4px;
+    color: var(--text);
+    outline: none;
+  }
+  .input-field:focus { border-color: var(--accent-teal-text); }
+  .prose {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .prose p { margin: 0 0 0.9rem; }
+  .variable {
+    background: var(--accent-teal-bg);
+    color: var(--accent-teal-text);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .placeholder {
+    opacity: 0.5;
+    font-style: italic;
+  }
+  .caption {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .caption strong { color: var(--text); font-weight: 500; }
+  .back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--text-muted); }
+
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  #gate-inner {
+    max-width: 320px;
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+  }
+  #gate h1 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  #gate p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+  #gate input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    font-family: var(--sans);
+    outline: none;
+  }
+  #gate input:focus { border-color: var(--text); }
+  #gate-error {
+    color: #b33;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+  }
+  body.unlocked #gate { display: none; }
+  body:not(.unlocked) .wrap { display: none; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div id="gate-inner">
+    <h1>livetext</h1>
+    <p>password</p>
+    <input type="password" id="gate-input" autofocus>
+    <div id="gate-error"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="mockup">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 03</span>
+      <span class="mockup-name">Reactivity</span>
+    </div>
+    <h2 class="mockup-title">The worst person in the world.</h2>
+    <div class="input-row">
+      <label class="input-label" for="figure-input">Name the worst person in the world:</label>
+      <input type="text" class="input-field" id="figure-input" placeholder="" value="">
+    </div>
+    <div class="prose">
+      <p><span class="variable" id="var-name"><span class="placeholder">[NAME]</span></span>. Notice what happens in your body as you read <span class="variable" id="var-name2"><span class="placeholder">[NAME]</span></span>. That tightening, that flicker of preemptive defense or attack.</p>
+      <p><span class="variable" id="var-name3"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name4"><span class="placeholder">[NAME]</span></span>, <span class="variable" id="var-name5"><span class="placeholder">[NAME]</span></span></p>
+      <p>That's what reactivity <em>feels</em> like.</p>
+    </div>
+    <div class="caption">
+      <strong>What it does:</strong> Reader supplies their own trigger rather than choosing from the author's curated pairs. The essay becomes a mirror for the reader's specific reactivity instead of a general argument.
+    </div>
+  </div>
+  <a class="back" href="/">← back to essay</a>
+</div>
+
+<script>
+(function() {
+  var PASSWORD = '@nosilverv';
+  var input = document.getElementById('gate-input');
+  var error = document.getElementById('gate-error');
+  if (sessionStorage.getItem('unlocked') === 'yes') {
+    document.body.classList.add('unlocked');
+  }
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem('unlocked', 'yes');
+        document.body.classList.add('unlocked');
+      } else {
+        error.textContent = 'nope';
+        input.value = '';
+      }
+    }
+  });
+})();
+
+(function() {
+  var input = document.getElementById('figure-input');
+  var vars = [
+    document.getElementById('var-name'),
+    document.getElementById('var-name2'),
+    document.getElementById('var-name3'),
+    document.getElementById('var-name4'),
+    document.getElementById('var-name5')
+  ];
+  var originals = vars.map(function(v) { return v.innerHTML; });
+  input.addEventListener('input', function() {
+    var v = input.value.trim();
+    if (v.length > 0) {
+      vars.forEach(function(el) { el.textContent = v; });
+    } else {
+      vars.forEach(function(el, i) { el.innerHTML = originals[i]; });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

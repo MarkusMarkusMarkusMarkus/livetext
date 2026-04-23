@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>On-demand Depth — livetext</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --text-faint: #9a9a9a;
+    --accent-amber-bg: #faeeda;
+    --accent-amber-text: #633806;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 560px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+  .mockup {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+  }
+  .mockup-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .mockup-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  .mockup-name {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .mockup-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 20px;
+  }
+  .depth-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .depth-btn {
+    border: none;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.15s;
+  }
+  .depth-btn.active {
+    background: var(--accent-amber-bg);
+    color: var(--accent-amber-text);
+  }
+  .prose {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .prose p { margin: 0 0 0.9rem; }
+  .depth-expand { display: none; }
+  .depth-expand.visible { display: block; }
+  .footnote {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-left: 2px solid var(--accent-amber-bg);
+    margin: 10px 0;
+    background: rgba(250, 238, 218, 0.25);
+    border-radius: 0 4px 4px 0;
+    font-family: var(--serif);
+    line-height: 1.55;
+  }
+  .source {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-family: var(--sans);
+    padding: 6px 12px;
+    margin: 8px 0;
+    border-left: 2px solid var(--border);
+  }
+  .caption {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .caption strong { color: var(--text); font-weight: 500; }
+  .back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--text-muted); }
+
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  #gate-inner {
+    max-width: 320px;
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+  }
+  #gate h1 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  #gate p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+  #gate input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    font-family: var(--sans);
+    outline: none;
+  }
+  #gate input:focus { border-color: var(--text); }
+  #gate-error {
+    color: #b33;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+  }
+  body.unlocked #gate { display: none; }
+  body:not(.unlocked) .wrap { display: none; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div id="gate-inner">
+    <h1>livetext</h1>
+    <p>password</p>
+    <input type="password" id="gate-input" autofocus>
+    <div id="gate-error"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="mockup">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 02</span>
+      <span class="mockup-name">Depth</span>
+    </div>
+    <h2 class="mockup-title">On the rise of remote work.</h2>
+    <div class="depth-row">
+      <span>Show:</span>
+      <button class="depth-btn active" data-depth="1" id="d1">claim</button>
+      <button class="depth-btn" data-depth="2" id="d2">+ evidence</button>
+      <button class="depth-btn" data-depth="3" id="d3">+ sources</button>
+    </div>
+    <div class="prose">
+      <p>Remote work isn't reverting. The 2020 shift looked like an emergency, but five years on it's clear the emergency revealed preferences that already existed.</p>
+      <div class="depth-expand" data-level="2">
+        <div class="footnote">Office occupancy in major US metros has stabilized at roughly 55–65% of pre-pandemic levels and hasn't moved meaningfully in eighteen months. The "return to office" narrative keeps being reported as imminent; the numbers keep being flat.</div>
+      </div>
+      <p>What changed wasn't the technology — video calls worked before — but the coordination problem. Once enough workers had remote as a live option, companies competing for talent couldn't unilaterally pull it back.</p>
+      <div class="depth-expand" data-level="2">
+        <div class="footnote">Companies that mandated full returns in 2023 saw disproportionate attrition among their most valuable employees — those with the most outside options. This created a selection effect where the firms holding the line lost the people most worth holding.</div>
+      </div>
+      <div class="depth-expand" data-level="3">
+        <div class="source">→ Kastle Systems Back-to-Work Barometer (weekly data)</div>
+        <div class="source">→ Bloom, Davis, Barrero — <em>SWAA survey</em>, Stanford, ongoing</div>
+      </div>
+    </div>
+    <div class="caption">
+      <strong>What it does:</strong> Lets readers pull the depth they want inline rather than chasing footnotes. Skeptical readers get evidence; satisfied readers move on.
+    </div>
+  </div>
+  <a class="back" href="/">← back to essay</a>
+</div>
+
+<script>
+(function() {
+  var PASSWORD = '@nosilverv';
+  var input = document.getElementById('gate-input');
+  var error = document.getElementById('gate-error');
+  if (sessionStorage.getItem('unlocked') === 'yes') {
+    document.body.classList.add('unlocked');
+  }
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem('unlocked', 'yes');
+        document.body.classList.add('unlocked');
+      } else {
+        error.textContent = 'nope';
+        input.value = '';
+      }
+    }
+  });
+})();
+
+(function() {
+  var btns = document.querySelectorAll('.depth-btn');
+  var expands = document.querySelectorAll('.depth-expand');
+  var currentDepth = 1;
+  function render() {
+    btns.forEach(function(b) {
+      var d = parseInt(b.getAttribute('data-depth'));
+      b.classList.toggle('active', d === currentDepth);
+    });
+    expands.forEach(function(e) {
+      var lvl = parseInt(e.getAttribute('data-level'));
+      if (currentDepth >= lvl) e.classList.add('visible'); else e.classList.remove('visible');
+    });
+  }
+  btns.forEach(function(b) {
+    b.addEventListener('click', function() {
+      currentDepth = parseInt(b.getAttribute('data-depth'));
+      render();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

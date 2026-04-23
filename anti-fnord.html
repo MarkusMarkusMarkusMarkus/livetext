@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Anti-fnord — livetext</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --text-faint: #9a9a9a;
+    --accent-blue-bg: #e6f1fb;
+    --accent-blue-text: #0c447c;
+    --accent-red-bg: #fcebeb;
+    --accent-red-text: #791f1f;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 560px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+  .mockup {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+  }
+  .mockup-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .mockup-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  .mockup-name {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .mockup-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 20px;
+  }
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .toggle-btn {
+    border: none;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.15s;
+  }
+  .toggle-btn.active-w {
+    background: var(--accent-blue-bg);
+    color: var(--accent-blue-text);
+  }
+  .toggle-btn.active-m {
+    background: var(--accent-red-bg);
+    color: var(--accent-red-text);
+  }
+  .prose {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .prose p { margin: 0 0 0.9rem; }
+  .ex {
+    background: var(--accent-blue-bg);
+    color: var(--accent-blue-text);
+    padding: 1px 4px;
+    border-radius: 3px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .ex.maga {
+    background: var(--accent-red-bg);
+    color: var(--accent-red-text);
+  }
+  .caption {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .caption strong { color: var(--text); font-weight: 500; }
+  .back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--text-muted); }
+
+  /* Password gate */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  #gate-inner {
+    max-width: 320px;
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+  }
+  #gate h1 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  #gate p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+  #gate input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    font-family: var(--sans);
+    outline: none;
+  }
+  #gate input:focus { border-color: var(--text); }
+  #gate-error {
+    color: #b33;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 16px;
+  }
+  body.unlocked #gate { display: none; }
+  body:not(.unlocked) .wrap { display: none; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div id="gate-inner">
+    <h1>livetext</h1>
+    <p>password</p>
+    <input type="password" id="gate-input" autofocus>
+    <div id="gate-error"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="mockup">
+    <div class="mockup-meta">
+      <span class="mockup-number">Sketch 01</span>
+      <span class="mockup-name">Anti-fnord</span>
+    </div>
+    <h2 class="mockup-title">Power you trust today will be wielded against you tomorrow.</h2>
+    <div class="toggle-row">
+      <span>Examples:</span>
+      <button class="toggle-btn active-w" id="t1-w">woke</button>
+      <button class="toggle-btn" id="t1-m">maga</button>
+    </div>
+    <div class="prose">
+      <p>There's a mistake almost everyone makes when they're winning: they mistake their grip on institutional power for the rightness of institutional power itself.</p>
+      <p>Consider <span class="ex" data-w="universities using DEI statements as hiring filters" data-m="Florida auditing what teachers say about gender">universities using DEI statements as hiring filters</span>. Whatever you think of the content, notice the <em>structure</em>: a small, unaccountable body decides which beliefs disqualify someone from a job.</p>
+      <p>Institutions outlive coalitions. The tools you build to enforce your values become, within a decade, tools your opponents use to enforce theirs. <span class="ex" data-w="The censorship apparatus progressives cheered during COVID" data-m="The executive powers conservatives expanded after 9/11">The censorship apparatus progressives cheered during COVID</span> is now being pointed elsewhere.</p>
+    </div>
+    <div class="caption">
+      <strong>What it does:</strong> Swaps tribal markers while keeping the logical structure fixed. Reader sees the argument with their home-team examples first; curiosity pulls them to flip.
+    </div>
+  </div>
+  <a class="back" href="/">← back to essay</a>
+</div>
+
+<script>
+(function() {
+  var PASSWORD = '@nosilverv';
+  var input = document.getElementById('gate-input');
+  var error = document.getElementById('gate-error');
+  if (sessionStorage.getItem('unlocked') === 'yes') {
+    document.body.classList.add('unlocked');
+  }
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem('unlocked', 'yes');
+        document.body.classList.add('unlocked');
+      } else {
+        error.textContent = 'nope';
+        input.value = '';
+      }
+    }
+  });
+})();
+
+(function() {
+  var btnW = document.getElementById('t1-w');
+  var btnM = document.getElementById('t1-m');
+  var spans = document.querySelectorAll('.ex');
+  var mode = 'w';
+  function render() {
+    spans.forEach(function(s) {
+      s.textContent = s.getAttribute('data-' + mode);
+      if (mode === 'm') s.classList.add('maga'); else s.classList.remove('maga');
+    });
+    btnW.classList.toggle('active-w', mode === 'w');
+    btnM.classList.toggle('active-m', mode === 'm');
+  }
+  btnW.addEventListener('click', function() { mode = 'w'; render(); });
+  btnM.addEventListener('click', function() { mode = 'm'; render(); });
+})();
+</script>
+
+</body>
+</html>
